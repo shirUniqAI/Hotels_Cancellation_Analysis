@@ -56,8 +56,7 @@ attributes = ['lead_time', 'arrival_date_year',
 with att_select:
     selected_attributes = st.multiselect(
             "Select Attributes",
-            attributes,
-            index=0)
+            attributes)
 if len(selected_attributes) == 0:
     selected_attributes = attributes
 with heatmap:
@@ -70,8 +69,7 @@ hists = ['Lead Days', 'Cancellation Days']
 with hist_select:
     hists_selection = st.multiselect(
         "Select Histograms",
-        hists,
-        index=0
+        hists
     )
 
 if len(hists_selection) == 0:
