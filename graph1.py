@@ -1,7 +1,7 @@
 import datetime
 
 import pandas as pd
-import plotly.graph_objects as go
+import plotly.graph_objs as go
 
 hotel_bookings = pd.read_csv("hotel_bookings.csv")
 
