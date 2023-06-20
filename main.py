@@ -58,7 +58,7 @@ if len(selected_attributes) == 0:
 st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
 
 
-hist_select, hist, scatter = st.columns(3)
+hist_select, _ = st.columns(2)
 
 hists = ['Lead Days', 'Cancellation Days']
 with hist_select:
@@ -69,6 +69,9 @@ with hist_select:
 
 if len(hists_selection) == 0:
     hists_selection = hists
+
+hist, scatter = st.columns(2)
+
 with hist:
     st.plotly_chart(graph3.get_cancellation_lead_hist(hists))
 
