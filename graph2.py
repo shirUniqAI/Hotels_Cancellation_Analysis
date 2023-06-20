@@ -11,7 +11,7 @@ def get_corr_heatmap(columns: list = None):
     if columns is not None and len(columns) > 1:
         df = df[columns]
 
-    corr = df.corr()
+    corr = df.corr(numeric_only=True)
     fig = px.imshow(corr,
                     title="Attributes Correlation Matrix",
                     aspect="auto"
