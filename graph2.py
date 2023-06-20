@@ -18,7 +18,8 @@ def get_corr_heatmap(columns: list = None):
     fig = px.imshow(corr,
                     title="Attributes Correlation Matrix",
                     aspect="auto",
-                    color_continuous_scale='RdBu_r'
+                    color_continuous_scale='RdBu_r',
+                    height=600
                     )
     return fig
 
