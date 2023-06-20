@@ -72,7 +72,7 @@ if len(hists_selection) == 0:
 hist, scatter = st.columns(2)
 
 with hist:
-    st.plotly_chart(graph3.get_cancellation_lead_hist(hists), use_container_width=True)
+    st.plotly_chart(graph3.get_cancellation_lead_hist(hists_selection), use_container_width=True)
 
 with scatter:
     st.plotly_chart(graph3.get_cancellation_days_scatter(), use_container_width=True)
