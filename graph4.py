@@ -23,19 +23,22 @@ def get_cancellations_by_country(column, topX):
         fig = px.treemap(names=sorted_by_reserv.head(topX).index,
                          path=[sorted_by_reserv.head(topX).index],
                          values=sorted_by_reserv.head(topX)[column],
-                         color=sorted_by_reserv.head(topX)[column])
+                         color=sorted_by_reserv.head(topX)[column],
+                         width=1400)
     elif column == "total_cancellations":
         fig = px.treemap(names=sorted_by_cancel.head(topX).index,
                          path=[sorted_by_cancel.head(topX).index],
                          values=sorted_by_cancel.head(topX)[column],
-                         color=sorted_by_cancel.head(topX)[column])
+                         color=sorted_by_cancel.head(topX)[column],
+                         width=1400)
     else:
         fig = px.treemap(names=sorted_by_ratio.head(topX).index,
                          path=[sorted_by_ratio.head(topX).index],
                          values=sorted_by_ratio.head(topX)[column],
-                         color=sorted_by_ratio.head(topX)[column])
+                         color=sorted_by_ratio.head(topX)[column],
+                         width=1400)
     return fig
 
 
 if __name__ == "__main__":
-    get_cancellations_by_country("cancellation_ratio", 25).show()
+    get_cancellations_by_country("total_reservations", 25).show()
