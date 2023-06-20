@@ -40,8 +40,7 @@ st.plotly_chart(selected_graph1, use_container_width=True)
 
 
 att_select, _ = st.columns(2)
-attributes = ['lead_time', 'arrival_date_year',
-       'arrival_date_month', 'arrival_date_week_number',
+attributes = ['lead_time', 'arrival_date_year', 'arrival_date_week_number',
        'arrival_date_day_of_month', 'stays_in_weekend_nights',
        'stays_in_week_nights', 'adults', 'children', 'babies',
        'is_repeated_guest', 'previous_cancellations',
