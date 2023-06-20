@@ -59,8 +59,8 @@ with att_select:
             attributes)
 if len(selected_attributes) == 0:
     selected_attributes = attributes
-# with heatmap:
-#     st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
+with heatmap:
+    st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
 
 
 hist_select, hist, scatter = st.columns(3)
