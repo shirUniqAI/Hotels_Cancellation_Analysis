@@ -39,7 +39,7 @@ else:
 st.plotly_chart(selected_graph1, use_container_width=True)
 
 
-att_select, heatmap = st.columns(2)
+att_select, _ = st.columns(2)
 attributes = ['lead_time', 'arrival_date_year',
        'arrival_date_month', 'arrival_date_week_number',
        'arrival_date_day_of_month', 'stays_in_weekend_nights',
@@ -54,8 +54,8 @@ with att_select:
             attributes)
 if len(selected_attributes) == 0:
     selected_attributes = attributes
-with heatmap:
-    st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
+
+st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
 
 
 hist_select, hist, scatter = st.columns(3)
