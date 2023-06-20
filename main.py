@@ -84,7 +84,7 @@ with scatter:
 
 country_count_slider, country_attribute_select = st.columns(2)
 with country_count_slider:
-    topX = st.slider("Number of counties to show:", min_value=5, max_value=50, step=5)
+    topX = st.slider("Number of counties to show:", min_value=5, max_value=50, step=5, value=25)
 with country_attribute_select:
     column = st.selectbox(
         "Select attribute to show:",
