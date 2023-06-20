@@ -8,6 +8,9 @@ from PIL import Image
 
 
 from plotly.subplots import make_subplots
+
+import graph4
+
 st.set_page_config(layout="wide")
 
 
@@ -77,4 +80,24 @@ with hist:
 with scatter:
     st.plotly_chart(graph3.get_cancellation_days_scatter())
 
+
+country_count_slider, country_attribute_select = st.columns(2)
+with country_count_slider:
+    topX = st.slider("Number of counties to show:", min_value=5, max_value=50, step=5)
+with country_attribute_select:
+    column = st.selectbox(
+        "Select attribute to show:",
+        ("Amount of Reservations", "Amount of Cancellations", "Cancellations Ratio")
+    )
+    if column == "Amount of Reservations":
+        column = "total_reservations"
+    elif column == "Amount of Cancellations":
+        column = "total_cancellations"
+    else:
+        column = "cancellation_ratio"
+
+country_plot = st.columns(1)
+
+with country_plot:
+    st.plotly_chart(graph4.get_cancellations_by_country(column, topX))
 
