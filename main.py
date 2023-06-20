@@ -5,12 +5,6 @@ import graph1
 import graph2
 import graph3
 import graph4
-from PIL import Image
-
-
-from plotly.subplots import make_subplots
-
-import graph4
 
 st.set_page_config(layout="wide")
 
@@ -28,7 +22,7 @@ with hotel:
 with isCanceled:
     isCanceled_radio = st.selectbox(
         "Select Canceled or Not Canceled:",
-        ('Canceled', 'Not Canceled'),
+        ('All', 'Canceled', 'Not Canceled'),
         index=0
     )
 

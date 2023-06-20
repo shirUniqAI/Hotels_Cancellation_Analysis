@@ -40,8 +40,8 @@ city_hotel_canceled = city_hotel_canceled.reindex(sorted(city_hotel_canceled.ind
 city_hotel_not_canceled = city_hotel[city_hotel["is_canceled"] == 0].groupby("arrival_date_month").count()
 city_hotel_not_canceled = city_hotel_not_canceled.reindex(sorted(city_hotel_not_canceled.index, key=lambda x: mtn(x)))
 scatter_city_all = go.Scatter(x=city_hotel_all.index, y=city_hotel_all["hotel"], name="City Hotel", marker=dict(color='blue'))
-scatter_city_canceled = go.Scatter(x=city_hotel_all.index, y=city_hotel_all["hotel"], name="City Hotel", marker=dict(color='blue'))
-scatter_city_not_canceled = go.Scatter(x=city_hotel_all.index, y=city_hotel_all["hotel"], name="City Hotel", marker=dict(color='blue'))
+scatter_city_canceled = go.Scatter(x=city_hotel_canceled.index, y=city_hotel_canceled["hotel"], name="City Hotel", marker=dict(color='blue'))
+scatter_city_not_canceled = go.Scatter(x=city_hotel_not_canceled.index, y=city_hotel_not_canceled["hotel"], name="City Hotel", marker=dict(color='blue'))
 
 resort_hotel_all = resort_hotel.groupby("arrival_date_month").count()
 resort_hotel_all = resort_hotel_all.reindex(sorted(resort_hotel_all.index, key=lambda x: mtn(x)))
@@ -50,8 +50,8 @@ resort_hotel_canceled = resort_hotel_canceled.reindex(sorted(resort_hotel_cancel
 resort_hotel_not_canceled = resort_hotel[resort_hotel["is_canceled"] == 0].groupby("arrival_date_month").count()
 resort_hotel_not_canceled = resort_hotel_not_canceled.reindex(sorted(resort_hotel_not_canceled.index, key=lambda x: mtn(x)))
 scatter_resort_all = go.Scatter(x=resort_hotel_all.index, y=resort_hotel_all["hotel"], name="Resort Hotel", marker=dict(color='orange'))
-scatter_resort_canceled = go.Scatter(x=resort_hotel_all.index, y=resort_hotel_all["hotel"], name="Resort Hotel", marker=dict(color='orange'))
-scatter_resort_not_canceled = go.Scatter(x=resort_hotel_all.index, y=resort_hotel_all["hotel"], name="Resort Hotel", marker=dict(color='orange'))
+scatter_resort_canceled = go.Scatter(x=resort_hotel_canceled.index, y=resort_hotel_canceled["hotel"], name="Resort Hotel", marker=dict(color='orange'))
+scatter_resort_not_canceled = go.Scatter(x=resort_hotel_not_canceled.index, y=resort_hotel_not_canceled["hotel"], name="Resort Hotel", marker=dict(color='orange'))
 
 layout = go.Layout(
     title='Amount of reservations per month',
@@ -107,4 +107,4 @@ def get_reservations_per_month_graph(filters: dict = None):
 
 
 if __name__ == "__main__":
-    get_reservations_per_month_graph().show()
+    get_reservations_per_month_graph({"hotel": ['City Hotel', 'Resort Hotel'], "is_canceled": 1}).show()
