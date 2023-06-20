@@ -97,8 +97,5 @@ with country_attribute_select:
     else:
         column = "cancellation_ratio"
 
-country_plot = st.columns(1)
-
-with country_plot:
-    st.plotly_chart(graph3.get_cancellation_days_scatter())
+st.plotly_chart(graph4.get_cancellations_by_country(column, topX))
 
