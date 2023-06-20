@@ -12,6 +12,7 @@ st.set_page_config(layout="wide")
 # Set up the app layout
 st.title("Hotels Booking Cancellations")
 
+st.header("Reservations and cancellations per month")
 hotel, isCanceled = st.columns(2)
 with hotel:
     hotel_selection = st.multiselect(
@@ -38,7 +39,7 @@ else:
 
 st.plotly_chart(selected_graph1, use_container_width=True)
 
-
+st.header("Correlation between attributes and cancellations")
 att_select, _ = st.columns(2)
 attributes = ['lead_time', 'arrival_date_year', 'arrival_date_week_number',
        'arrival_date_day_of_month', 'stays_in_weekend_nights',
@@ -56,7 +57,7 @@ if len(selected_attributes) == 0:
 
 st.plotly_chart(graph2.get_corr_heatmap(selected_attributes), use_container_width=True)
 
-
+st.header("Reservations and cancellations days before arrival")
 hist_select, _ = st.columns(2)
 
 hists = ['Lead Days', 'Cancellation Days']
@@ -77,7 +78,7 @@ with hist:
 with scatter:
     st.plotly_chart(graph3.get_cancellation_days_scatter(), use_container_width=True)
 
-
+st.header("Reservations and cancellations per country")
 country_count_slider, country_attribute_select = st.columns(2)
 with country_count_slider:
     topX = st.slider("Number of counties to show:", min_value=5, max_value=50, step=5, value=25)
