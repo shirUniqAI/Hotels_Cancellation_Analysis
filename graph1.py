@@ -1,9 +1,16 @@
 import datetime
 
 import pandas as pd
-import plotly.graph_objs as go
+import plotly.express as px
 
 hotel_bookings = pd.read_csv("hotel_bookings.csv")
+
+
+def sort_months(ser):
+    res = []
+    for m in ser:
+        res.append(mtn(m))
+    return pd.Series(res)
 
 
 def mtn(x):
@@ -25,86 +32,55 @@ def mtn(x):
     return months[a]
 
 
-reservation_date = []
-for i in hotel_bookings.index:
-    reservation_date.append(datetime.date(hotel_bookings.at[i, "arrival_date_year"], mtn(hotel_bookings.at[i, "arrival_date_month"]), hotel_bookings.at[i, "arrival_date_day_of_month"]))
-hotel_bookings["arrival_date"] = reservation_date
+# reservation_date = []
+# for i in hotel_bookings.index:
+#     reservation_date.append(datetime.date(hotel_bookings.at[i, "arrival_date_year"], mtn(hotel_bookings.at[i, "arrival_date_month"]), hotel_bookings.at[i, "arrival_date_day_of_month"]))
+# hotel_bookings["arrival_date"] = reservation_date
 
-city_hotel = hotel_bookings[hotel_bookings["hotel"] == "City Hotel"]
-resort_hotel = hotel_bookings[hotel_bookings["hotel"] == "Resort Hotel"]
+hotel_bookings["count"] = 1
+city_hotel = hotel_bookings[hotel_bookings["hotel"] == "City Hotel"][["arrival_date_month", "count", "is_canceled"]]
+resort_hotel = hotel_bookings[hotel_bookings["hotel"] == "Resort Hotel"][["arrival_date_month", "count", "is_canceled"]]
 
-city_hotel_all = city_hotel.groupby("arrival_date_month").count()
-city_hotel_all = city_hotel_all.reindex(sorted(city_hotel_all.index, key=lambda x: mtn(x)))
-city_hotel_canceled = city_hotel[city_hotel["is_canceled"] == 1].groupby("arrival_date_month").count()
-city_hotel_canceled = city_hotel_canceled.reindex(sorted(city_hotel_canceled.index, key=lambda x: mtn(x)))
-city_hotel_not_canceled = city_hotel[city_hotel["is_canceled"] == 0].groupby("arrival_date_month").count()
-city_hotel_not_canceled = city_hotel_not_canceled.reindex(sorted(city_hotel_not_canceled.index, key=lambda x: mtn(x)))
-scatter_city_all = go.Scatter(x=city_hotel_all.index, y=city_hotel_all["hotel"], name="City Hotel", marker=dict(color='blue'))
-scatter_city_canceled = go.Scatter(x=city_hotel_canceled.index, y=city_hotel_canceled["hotel"], name="City Hotel", marker=dict(color='blue'))
-scatter_city_not_canceled = go.Scatter(x=city_hotel_not_canceled.index, y=city_hotel_not_canceled["hotel"], name="City Hotel", marker=dict(color='blue'))
+city_hotel_all = city_hotel[["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+city_hotel_all["source"] = "City Hotel All"
+city_hotel_canceled = city_hotel[city_hotel["is_canceled"] == 1][["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+city_hotel_canceled["source"] = "City Hotel Canceled"
+city_hotel_not_canceled = city_hotel[city_hotel["is_canceled"] == 0][["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+city_hotel_not_canceled["source"] = "City Hotel Not Canceled"
 
-resort_hotel_all = resort_hotel.groupby("arrival_date_month").count()
-resort_hotel_all = resort_hotel_all.reindex(sorted(resort_hotel_all.index, key=lambda x: mtn(x)))
-resort_hotel_canceled = resort_hotel[resort_hotel["is_canceled"] == 1].groupby("arrival_date_month").count()
-resort_hotel_canceled = resort_hotel_canceled.reindex(sorted(resort_hotel_canceled.index, key=lambda x: mtn(x)))
-resort_hotel_not_canceled = resort_hotel[resort_hotel["is_canceled"] == 0].groupby("arrival_date_month").count()
-resort_hotel_not_canceled = resort_hotel_not_canceled.reindex(sorted(resort_hotel_not_canceled.index, key=lambda x: mtn(x)))
-scatter_resort_all = go.Scatter(x=resort_hotel_all.index, y=resort_hotel_all["hotel"], name="Resort Hotel", marker=dict(color='orange'))
-scatter_resort_canceled = go.Scatter(x=resort_hotel_canceled.index, y=resort_hotel_canceled["hotel"], name="Resort Hotel", marker=dict(color='orange'))
-scatter_resort_not_canceled = go.Scatter(x=resort_hotel_not_canceled.index, y=resort_hotel_not_canceled["hotel"], name="Resort Hotel", marker=dict(color='orange'))
+resort_hotel_all = resort_hotel[["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+resort_hotel_all["source"] = "Resort Hotel All"
+resort_hotel_canceled = resort_hotel[resort_hotel["is_canceled"] == 1][["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+resort_hotel_canceled["source"] = "Resort Hotel Canceled"
+resort_hotel_not_canceled = resort_hotel[resort_hotel["is_canceled"] == 0][["arrival_date_month", "count"]].groupby("arrival_date_month").count().reset_index()
+resort_hotel_not_canceled["source"] = "Resort Hotel Not Canceled"
 
-layout = go.Layout(
-    title='Amount of reservations per month',
-    xaxis=dict(
-        title='Month',
-        titlefont=dict(size=16, color='#000000'),
-        tickfont=dict(size=14, color='#000000'),
-    ),
-    yaxis=dict(
-        title='Amount of reservations',
-        titlefont=dict(size=16, color='#000000'),
-        tickfont=dict(size=14, color='#000000'),
-        showgrid=True, gridwidth=0.2, gridcolor='#D7DBDD'
-    ),
-    legend=dict(
-        x=1,
-        y=1.0,
-        bgcolor='white',
-        bordercolor='black'
-    ),
-    plot_bgcolor='white',
-    barmode='group',
-    bargap=0.15,
-    bargroupgap=0.1
-)
+final_df = pd.concat([city_hotel_all.reset_index(), city_hotel_canceled.reset_index(), city_hotel_not_canceled.reset_index(),
+                      resort_hotel_all.reset_index(), resort_hotel_canceled.reset_index(), resort_hotel_not_canceled.reset_index()])
+final_df = final_df.sort_values("arrival_date_month", key=lambda x: sort_months(x))
 
 
 def get_reservations_per_month_graph(filters: dict = None):
-    data = []
-    if filters is not None:
-        if "is_canceled" in filters:
-            if filters["is_canceled"] == 1:
-                city_plot = scatter_city_canceled
-                resort_plot = scatter_resort_canceled
-            else:
-                city_plot = scatter_city_not_canceled
-                resort_plot = scatter_resort_not_canceled
+    sources = []
+    if 'City Hotel' in filters['hotel']:
+        if filters['is_canceled'] == 1:
+            sources.append('City Hotel Canceled')
+        elif filters['is_canceled'] == 0:
+            sources.append('City Hotel Not Canceled')
         else:
-            city_plot = scatter_city_all
-            resort_plot = scatter_resort_all
-        if "hotel" in filters:
-            if "City Hotel" in filters["hotel"]:
-                data.append(city_plot)
-            if "Resort Hotel" in filters["hotel"]:
-                data.append(resort_plot)
+            sources.append('City Hotel All')
+    if 'Resort Hotel' in filters['hotel']:
+        if filters['is_canceled'] == 1:
+            sources.append('Resort Hotel Canceled')
+        elif filters['is_canceled'] == 0:
+            sources.append('Resort Hotel Not Canceled')
         else:
-            data.append(city_plot)
-            data.append(resort_plot)
-    else:
-        data = [scatter_city_all, scatter_resort_all]
-    fig = go.Figure(data=data, layout=layout)
-    return fig
+            sources.append('Resort Hotel All')
 
+    fig = px.line(final_df[final_df['source'].isin(sources)], x="arrival_date_month", y="count", color="source")
+    fig.update_xaxes(title="Month")
+    fig.update_yaxes(title="Amount")
+    return fig
 
 if __name__ == "__main__":
     get_reservations_per_month_graph({"hotel": ['City Hotel', 'Resort Hotel'], "is_canceled": 1}).show()
