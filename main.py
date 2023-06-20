@@ -55,7 +55,7 @@ with att_select:
 if len(selected_attributes) == 0:
     selected_attributes = attributes
 
-st.plotly_chart(graph2.get_corr_heatmap(selected_attributes))
+st.plotly_chart(graph2.get_corr_heatmap(selected_attributes), use_container_width=True)
 
 
 hist_select, _ = st.columns(2)
@@ -73,10 +73,10 @@ if len(hists_selection) == 0:
 hist, scatter = st.columns(2)
 
 with hist:
-    st.plotly_chart(graph3.get_cancellation_lead_hist(hists))
+    st.plotly_chart(graph3.get_cancellation_lead_hist(hists), use_container_width=True)
 
 with scatter:
-    st.plotly_chart(graph3.get_cancellation_days_scatter())
+    st.plotly_chart(graph3.get_cancellation_days_scatter(), use_container_width=True)
 
 
 country_count_slider, country_attribute_select = st.columns(2)
@@ -94,5 +94,5 @@ with country_attribute_select:
     else:
         column = "cancellation_ratio"
 
-st.plotly_chart(graph4.get_cancellations_by_country(column, topX))
+st.plotly_chart(graph4.get_cancellations_by_country(column, topX), use_container_width=True)
 
