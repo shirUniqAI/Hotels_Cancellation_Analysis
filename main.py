@@ -33,7 +33,7 @@ if isCanceled_radio == 'Canceled':
 elif isCanceled_radio == 'Not Canceled':
     selected_graph1 = graph1.get_reservations_per_month_graph({"hotel": hotel_selection, "is_canceled": 0})
 else:
-    selected_graph1 = graph1.get_reservations_per_month_graph({"hotel": hotel_selection})
+    selected_graph1 = graph1.get_reservations_per_month_graph({"hotel": hotel_selection, "is_canceled": -1})
 
 
 st.plotly_chart(selected_graph1, use_container_width=True)
