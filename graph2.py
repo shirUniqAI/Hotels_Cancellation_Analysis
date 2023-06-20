@@ -9,7 +9,7 @@ hotel_bookings = pd.read_csv("hotel_bookings.csv")
 def get_corr_heatmap(columns: list = None):
     df = hotel_bookings.copy()
     if "is_canceled" not in columns:
-        columns.append("is_canceled")
+        columns.insert(0, "is_canceled")
     if columns is not None and len(columns) > 1:
         df = df[columns]
     corr = df.corr(numeric_only=True)
