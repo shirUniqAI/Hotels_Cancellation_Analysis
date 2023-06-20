@@ -105,3 +105,6 @@ def get_reservations_per_month_graph(filters: dict = None):
     fig = go.Figure(data=data, layout=layout)
     return fig
 
+
+if __name__ == "__main__":
+    get_reservations_per_month_graph().show()

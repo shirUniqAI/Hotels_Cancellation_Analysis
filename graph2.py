@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import plotly.express as px
 
@@ -13,5 +14,10 @@ def get_corr_heatmap(columns: list = None):
     corr = df.corr()
     fig = px.imshow(corr,
                     title="Attributes Correlation Matrix",
+                    aspect="auto"
                     )
     return fig
+
+
+if __name__ == "__main__":
+    get_corr_heatmap().show()

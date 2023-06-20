@@ -95,5 +95,5 @@ def get_cancellation_lead_hist(attributes):
 
 
 if __name__ == "__main__":
-    # get_cancellation_days_scatter().show()
-    get_cancellation_lead_hist(["Lead Days", "Cancellation Days"]).show()
+    get_cancellation_days_scatter().show()
+    # get_cancellation_lead_hist(["Lead Days", "Cancellation Days"]).show()
