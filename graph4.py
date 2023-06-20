@@ -23,17 +23,20 @@ def get_cancellations_by_country(column, topX):
         fig = px.treemap(names=sorted_by_reserv.head(topX).index,
                          path=[sorted_by_reserv.head(topX).index],
                          values=sorted_by_reserv.head(topX)[column],
-                         color=sorted_by_reserv.head(topX)[column])
+                         color=sorted_by_reserv.head(topX)[column],
+                         color_continuous_scale='RdBu_r')
     elif column == "total_cancellations":
         fig = px.treemap(names=sorted_by_cancel.head(topX).index,
                          path=[sorted_by_cancel.head(topX).index],
                          values=sorted_by_cancel.head(topX)[column],
-                         color=sorted_by_cancel.head(topX)[column])
+                         color=sorted_by_cancel.head(topX)[column],
+                         color_continuous_scale='RdBu_r')
     else:
         fig = px.treemap(names=sorted_by_ratio.head(topX).index,
                          path=[sorted_by_ratio.head(topX).index],
                          values=sorted_by_ratio.head(topX)[column],
-                         color=sorted_by_ratio.head(topX)[column])
+                         color=sorted_by_ratio.head(topX)[column],
+                         color_continuous_scale='RdBu_r')
     return fig
 
 
