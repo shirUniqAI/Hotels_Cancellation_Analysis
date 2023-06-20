@@ -54,7 +54,7 @@ def get_cancellation_days_scatter():
 
 def get_cancellation_lead_hist(attributes):
     fig = px.histogram(data_frame=final_df[final_df["source"].isin(attributes)], x="Days", color="source",
-                       opacity=0.5)
+                       opacity=0.5, title="Lead and cancellation days before arrival")
     fig.update_xaxes(title_text="Days")
     fig.update_yaxes(title_text="Amount")
     return fig
