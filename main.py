@@ -1,6 +1,5 @@
 
 import streamlit as st
-import pandas as pd
 import graph1
 import graph2
 import graph3
